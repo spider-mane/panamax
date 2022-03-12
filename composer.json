@@ -1,7 +1,7 @@
 {
   "name": "panamax/panamax",
   "type": "library",
-  "description": "Create psr-11 container agnostic applications",
+  "description": "Collection of contracts and and implementations to facilitate design of psr-11 agnostic applications and frameworks.",
   "homepage": "https://github.com/spider-mane/panamax",
   "license": "MIT",
   "authors": [
@@ -20,7 +20,10 @@
   "prefer-stable": true,
   "require": {
     "php": "^7.4||^8.0",
-    "psr/container": "^2.0"
+    "oscarotero/env": "^2.1",
+    "phpspec/prophecy": "^1.15",
+    "psr/container": "^2.0",
+    "vlucas/phpdotenv": "^5.4"
   },
   "require-dev": {
     "captainhook/captainhook": "^5.10",
@@ -35,11 +38,16 @@
     "spatie/phpunit-watcher": "^1.12",
     "squizlabs/php_codesniffer": "^3.5",
     "symfony/var-dumper": "^5.4",
-    "vimeo/psalm": "^4.7"
+    "vimeo/psalm": "^4.7",
+    "webtheory/exterminate": "^0.2.0",
+    "webtheory/facade": "^0.1.2"
+  },
+  "suggest": {
+    "webtheory/facade": "Collection of traits that enables lateral use of Laravel-style facades"
   },
   "autoload": {
     "psr-4": {
-      "WebTheory\\Panamax\\": "src/"
+      "Panamax\\": "src/"
     }
   },
   "autoload-dev": {
@@ -66,6 +74,7 @@
     ]
   },
   "config": {
+    "optimize-autoloader": true,
     "sort-packages": true,
     "process-timeout": 0
   },
