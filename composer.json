@@ -39,8 +39,8 @@
     "symfony/var-dumper": "^5.4",
     "vimeo/psalm": "^4.7",
     "vlucas/phpdotenv": "^5.4",
-    "webtheory/exterminate": "^@release",
-    "webtheory/facade": "@release"
+    "webtheory/exterminate": "@stable",
+    "webtheory/facade": "@stable"
   },
   "suggest": {
     "webtheory/facade": "Enables lateral use of Laravel-style facades"
