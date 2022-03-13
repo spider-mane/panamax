@@ -11,7 +11,6 @@ use Panamax\Contracts\ServiceCreatorInterface;
 use Panamax\Contracts\ServiceFactoryInterface;
 use Panamax\Exceptions\InvalidServiceProviderException;
 use Panamax\Traits\ServiceCreatorTrait;
-use Traversable;
 use TypeError;
 
 class LeagueAdapter extends AbstractContainerAdapter implements ContainerAdapterInterface, ProviderContainerInterface, ServiceCreatorInterface
@@ -54,7 +53,7 @@ class LeagueAdapter extends AbstractContainerAdapter implements ContainerAdapter
         }
     }
 
-    public function createServices(Traversable $services)
+    public function createServices(iterable $services)
     {
         foreach ($services as $service) {
             $id = $service['id'];
