@@ -3,10 +3,10 @@
 namespace Panamax;
 
 use Panamax\Contracts\BootableProviderContainerInterface;
-use Panamax\Contracts\ServiceContainerLauncherInterface;
 use Panamax\Contracts\ProviderContainerInterface;
-use Panamax\Contracts\ServiceCreatorInterface;
 use Panamax\Contracts\ServiceContainerInterface;
+use Panamax\Contracts\ServiceContainerLauncherInterface;
+use Panamax\Contracts\ServiceCreatorInterface;
 
 class ServiceContainerLauncher implements ServiceContainerLauncherInterface
 {
