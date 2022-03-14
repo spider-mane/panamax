@@ -23,12 +23,13 @@ trait ServiceCreatorTrait
             : $factory::instance();
     }
 
-    protected function invalidFactoryException(string $serviceId): RuntimeException
+    protected function invalidFactoryException(string $serviceId, $found): RuntimeException
     {
         $interface = ServiceFactoryInterface::class;
+        $found = gettype($found);
 
         return new UnexpectedValueException(
-            "Value of \"factory\" for service \"{$serviceId}\" must implement \"{$interface}\""
+            "Value of \"factory\" for service \"{$serviceId}\" must implement \"{$interface}\"; {$found} found."
         );
     }
 }

@@ -12,13 +12,13 @@ class LeagueAdapterTest extends TestCase
 {
     protected LeagueAdapter $adapter;
 
-    protected MockObject $container;
+    protected MockObject $containerStub;
 
     protected function setUp(): void
     {
         $containerStub = $this->createStub(DefinitionContainerInterface::class);
 
-        $this->container = $containerStub;
+        $this->containerStub = $containerStub;
         $this->adapter = new LeagueAdapter($containerStub);
     }
 
@@ -31,9 +31,10 @@ class LeagueAdapterTest extends TestCase
         $concrete = fn () => new stdClass();
         $resolved = $concrete();
 
-        $this->container->method('get')->willReturn($resolved);
-        $this->adapter->bind($id, $concrete);
+        $this->containerStub->method('get')->willReturn($resolved);
+        $this->adapter->bind($id, $concrete, false);
 
+        $this->assertNotSame($concrete(), $this->adapter->get($id)); // smoke test
         $this->assertSame($resolved, $this->adapter->get($id));
     }
 }

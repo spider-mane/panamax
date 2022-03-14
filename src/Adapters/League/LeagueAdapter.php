@@ -41,15 +41,22 @@ class LeagueAdapter extends AbstractContainerAdapter implements ContainerAdapter
         $this->container->addShared($id, $concrete);
     }
 
-    public function addServiceProvider($provider)
+    public function addServiceProvider(string $provider, ?array $args = null)
     {
         try {
-            $this->container->addServiceProvider($provider);
+            $this->container->addServiceProvider(new $provider());
         } catch (TypeError $e) {
             throw new InvalidServiceProviderException(
                 __METHOD__,
                 ServiceProviderInterface::class
             );
+        }
+    }
+
+    public function addServiceProviders(iterable $providers)
+    {
+        foreach ($providers as $provider) {
+            $this->addServiceProvider($provider);
         }
     }
 
@@ -65,7 +72,7 @@ class LeagueAdapter extends AbstractContainerAdapter implements ContainerAdapter
             if ($this->isValidFactory($factory)) {
                 $factory = $this->getResolvedFactory($factory);
             } else {
-                throw $this->invalidFactoryException($id);
+                throw $this->invalidFactoryException($id, $factory);
             }
 
             $this->createService($id, $factory, $args, $service);
