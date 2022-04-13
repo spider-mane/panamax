@@ -11,6 +11,7 @@ use Panamax\Contracts\ServiceCreatorInterface;
 use Panamax\Contracts\ServiceFactoryInterface;
 use Panamax\Exceptions\InvalidServiceProviderException;
 use Panamax\Traits\ServiceCreatorTrait;
+use Psr\Container\ContainerInterface;
 use TypeError;
 
 class LeagueAdapter extends AbstractContainerAdapter implements ContainerAdapterInterface, ProviderContainerInterface, ServiceCreatorInterface
@@ -20,7 +21,7 @@ class LeagueAdapter extends AbstractContainerAdapter implements ContainerAdapter
     /**
      * @var DefinitionContainerInterface
      */
-    protected $container;
+    protected ContainerInterface $container;
 
     public function __construct(DefinitionContainerInterface $container)
     {

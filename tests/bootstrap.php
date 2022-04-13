@@ -1,6 +1,7 @@
 <?php
 
 use Dotenv\Dotenv;
+
 use function Env\env;
 
 use WebTheory\Exterminate\Exterminator;

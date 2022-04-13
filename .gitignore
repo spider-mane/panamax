@@ -1,8 +1,12 @@
-# Dev and CI
+# Dev and CI builds
 *.cache
+/.playground
+/.playground.php
 /build/
 /dist/
 /logs/
+/temp/
+captainhook.config.json
 cghooks.lock
 docker-compose.override.yml
 
@@ -15,15 +19,12 @@ composer.lock
 .env.*
 .*.env
 !.env.example
-!.env.*.example
-!.example.env
-!example.env
 
 # Editor/ IDE
-*.code-workspace
 .idea/
 .project/
 .vscode/
+*.code-workspace
 
 # System files
 .DS_Store

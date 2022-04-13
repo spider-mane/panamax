@@ -7,10 +7,7 @@ use Psr\Container\ContainerInterface;
 
 abstract class AbstractContainerAdapter implements ContainerAdapterInterface
 {
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
+    protected ContainerInterface $container;
 
     public function get(string $id)
     {
