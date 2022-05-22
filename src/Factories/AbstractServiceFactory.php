@@ -13,6 +13,11 @@ abstract class AbstractServiceFactory implements ServiceFactoryInterface
         return fn () => $this->create($container, $args);
     }
 
+    protected function getNullable(string $service, ContainerInterface $container)
+    {
+        return $container->has($service) ? $container->get($service) : null;
+    }
+
     public static function instance(): ServiceFactoryInterface
     {
         return new static();
