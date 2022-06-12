@@ -59,11 +59,10 @@
     }
   },
   "scripts": {
-    "env": "cp -n .env.example .env && bin/build-paths",
+    "analyze": "vendor/bin/phpstan analyze",
     "test": "vendor/bin/phpunit",
     "watch": "vendor/bin/phpunit-watcher",
     "check": "vendor/bin/phpcs",
-    "correct": "vendor/bin/phpcbf",
     "inspect": "vendor/bin/psalm",
     "shell": "vendor/bin/psysh",
     "collect": "vendor/bin/var-dump-server",
@@ -75,9 +74,9 @@
       "@test"
     ],
     "style": [
-      "vendor/bin/rector process",
       "vendor/bin/php-cs-fixer fix --verbose",
-      "@correct"
+      "vendor/bin/phpcbf",
+      "@check"
     ],
     "setup": [
       "composer install",
