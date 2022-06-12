@@ -42,6 +42,11 @@ class LeagueAdapter extends AbstractContainerAdapter implements ContainerAdapter
         $this->container->addShared($id, $concrete);
     }
 
+    public function alias(string $id, string $alias)
+    {
+        $this->container->add($alias, $id);
+    }
+
     public function addServiceProvider(string $provider, ?array $args = null)
     {
         try {

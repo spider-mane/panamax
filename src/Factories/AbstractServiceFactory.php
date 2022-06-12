@@ -4,6 +4,7 @@ namespace Panamax\Factories;
 
 use Closure;
 use Panamax\Contracts\ServiceFactoryInterface;
+use Panamax\ServiceEnclosure;
 use Psr\Container\ContainerInterface;
 
 abstract class AbstractServiceFactory implements ServiceFactoryInterface
@@ -11,6 +12,11 @@ abstract class AbstractServiceFactory implements ServiceFactoryInterface
     public function pledge(ContainerInterface $container, array $args = []): Closure
     {
         return fn () => $this->create($container, $args);
+    }
+
+    public function commit(ContainerInterface $container, array $args = []): Closure
+    {
+        return ServiceEnclosure::enclose($this->pledge($container, $args));
     }
 
     protected function getNullable(string $service, ContainerInterface $container)

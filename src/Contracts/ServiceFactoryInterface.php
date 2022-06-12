@@ -11,6 +11,8 @@ interface ServiceFactoryInterface
 
     public function pledge(ContainerInterface $container, array $args = []): Closure;
 
+    public function commit(ContainerInterface $container, array $args = []): Closure;
+
     /**
      * @return static
      */

@@ -22,7 +22,7 @@ abstract class AbstractLeagueServiceProvider extends AbstractServiceProvider
     {
         $container = $this->getContainer();
         $definition = $container->add(
-            $this->serviceId(),
+            $id = $this->serviceId(),
             fn () => $this->service($container)
         );
 
@@ -30,7 +30,13 @@ abstract class AbstractLeagueServiceProvider extends AbstractServiceProvider
             $definition->setShared($shared);
         }
 
-        array_map([$definition, 'addTag'], $this->serviceTags());
+        foreach ($this->serviceAliases() as $alias) {
+            $container->add($alias, $id);
+        }
+
+        foreach ($this->serviceTags() as $tag) {
+            $definition->addTag($tag);
+        }
     }
 
     protected function shared(): ?bool
@@ -39,7 +45,15 @@ abstract class AbstractLeagueServiceProvider extends AbstractServiceProvider
     }
 
     /**
-     * @return string[]
+     * @return array<string>
+     */
+    protected function serviceAliases(): array
+    {
+        return [];
+    }
+
+    /**
+     * @return array<string>
      */
     protected function serviceTags(): array
     {
