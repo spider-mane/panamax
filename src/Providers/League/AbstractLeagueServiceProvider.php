@@ -12,7 +12,11 @@ abstract class AbstractLeagueServiceProvider extends AbstractServiceProvider
      */
     public function provides(string $id): bool
     {
-        return in_array($id, [$this->serviceId(), ...$this->serviceTags()]);
+        return in_array($id, [
+            $this->serviceId(),
+            ...$this->getCombinedAliases(),
+            ...$this->serviceTags()
+        ]);
     }
 
     /**
@@ -30,13 +34,21 @@ abstract class AbstractLeagueServiceProvider extends AbstractServiceProvider
             $definition->setShared($shared);
         }
 
-        foreach ($this->serviceAliases() as $alias) {
+        foreach ($this->getCombinedAliases() as $alias) {
             $container->add($alias, $id);
         }
 
         foreach ($this->serviceTags() as $tag) {
             $definition->addTag($tag);
         }
+    }
+
+    protected function getCombinedAliases(): array
+    {
+        return [
+            ...(array) $this->serviceProvided(),
+            ...$this->serviceAliases(),
+        ];
     }
 
     protected function shared(): ?bool
@@ -58,6 +70,11 @@ abstract class AbstractLeagueServiceProvider extends AbstractServiceProvider
     protected function serviceTags(): array
     {
         return [];
+    }
+
+    protected function serviceProvided(): ?string
+    {
+        return null;
     }
 
     abstract protected function service(ContainerInterface $container);
