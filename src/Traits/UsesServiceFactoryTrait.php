@@ -9,16 +9,13 @@ trait UsesServiceFactoryTrait
 {
     protected function service(ContainerInterface $container)
     {
-        return $this->serviceFactory()->create(
-            $container,
-            $this->factoryArgs() ?? []
-        );
+        return $this->factory()->create($container, $this->args() ?? []);
     }
 
-    protected function factoryArgs(): ?array
+    protected function args(): ?array
     {
         return [];
     }
 
-    abstract protected function serviceFactory(): ServiceFactoryInterface;
+    abstract protected function factory(): ServiceFactoryInterface;
 }

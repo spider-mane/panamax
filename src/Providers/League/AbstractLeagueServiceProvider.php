@@ -13,9 +13,9 @@ abstract class AbstractLeagueServiceProvider extends AbstractServiceProvider
     public function provides(string $id): bool
     {
         return in_array($id, [
-            $this->serviceId(),
-            ...$this->getCombinedAliases(),
-            ...$this->serviceTags()
+            $this->id(),
+            ...$this->combinedAliases(),
+            ...$this->combinedTags()
         ]);
     }
 
@@ -26,7 +26,7 @@ abstract class AbstractLeagueServiceProvider extends AbstractServiceProvider
     {
         $container = $this->getContainer();
         $definition = $container->add(
-            $id = $this->serviceId(),
+            $id = $this->id(),
             fn () => $this->service($container)
         );
 
@@ -34,21 +34,23 @@ abstract class AbstractLeagueServiceProvider extends AbstractServiceProvider
             $definition->setShared($shared);
         }
 
-        foreach ($this->getCombinedAliases() as $alias) {
+        foreach ($this->combinedAliases() as $alias) {
             $container->add($alias, $id);
         }
 
-        foreach ($this->serviceTags() as $tag) {
+        foreach ($this->combinedTags() as $tag) {
             $definition->addTag($tag);
         }
     }
 
-    protected function getCombinedAliases(): array
+    protected function combinedAliases(): array
     {
-        return [
-            ...(array) $this->serviceProvided(),
-            ...$this->serviceAliases(),
-        ];
+        return [...$this->types(), ...$this->aliases()];
+    }
+
+    protected function combinedTags(): array
+    {
+        return $this->tags();
     }
 
     protected function shared(): ?bool
@@ -59,7 +61,7 @@ abstract class AbstractLeagueServiceProvider extends AbstractServiceProvider
     /**
      * @return array<string>
      */
-    protected function serviceAliases(): array
+    protected function types(): array
     {
         return [];
     }
@@ -67,17 +69,20 @@ abstract class AbstractLeagueServiceProvider extends AbstractServiceProvider
     /**
      * @return array<string>
      */
-    protected function serviceTags(): array
+    protected function aliases(): array
     {
         return [];
     }
 
-    protected function serviceProvided(): ?string
+    /**
+     * @return array<string>
+     */
+    protected function tags(): array
     {
-        return null;
+        return [];
     }
 
     abstract protected function service(ContainerInterface $container);
 
-    abstract protected function serviceId(): string;
+    abstract protected function id(): string;
 }
