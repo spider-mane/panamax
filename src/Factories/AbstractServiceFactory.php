@@ -19,7 +19,7 @@ abstract class AbstractServiceFactory implements ServiceFactoryInterface
         return ServiceEnclosure::enclose($this->pledge($container, $args));
     }
 
-    protected function getNullable(string $service, ContainerInterface $container)
+    protected function fetch(string $service, ContainerInterface $container)
     {
         return $container->has($service) ? $container->get($service) : null;
     }
