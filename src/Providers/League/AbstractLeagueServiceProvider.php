@@ -8,6 +8,8 @@ use Psr\Container\ContainerInterface;
 
 abstract class AbstractLeagueServiceProvider extends AbstractServiceProvider
 {
+    private readonly array $references;
+
     /**
      * {@inheritDoc}
      */
@@ -35,7 +37,7 @@ abstract class AbstractLeagueServiceProvider extends AbstractServiceProvider
 
     protected function combinedReferences(): array
     {
-        return [
+        return $this->references ??= [
             $this->id(),
             ...$this->combinedAliases(),
             ...$this->combinedTags()
