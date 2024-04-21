@@ -35,6 +35,9 @@ abstract class AbstractLeagueServiceProvider extends AbstractServiceProvider
         }
     }
 
+    /**
+     * @return list<string|class-string>
+     */
     protected function combinedReferences(): array
     {
         return $this->references ??= [
@@ -44,14 +47,20 @@ abstract class AbstractLeagueServiceProvider extends AbstractServiceProvider
         ];
     }
 
+    /**
+     * @return list<string|class-string>
+     */
     protected function combinedAliases(): array
     {
         return [...$this->aliases(), ...$this->types()];
     }
 
+    /**
+     * @return list<string|class-string>
+     */
     protected function combinedTags(): array
     {
-        return $this->tags();
+        return [...$this->tags(), ...$this->fulfillments()];
     }
 
     protected function define(string $id, mixed $concrete): DefinitionInterface
@@ -78,7 +87,7 @@ abstract class AbstractLeagueServiceProvider extends AbstractServiceProvider
     }
 
     /**
-     * @return array<string>
+     * @return list<string>
      */
     protected function aliases(): array
     {
@@ -86,7 +95,7 @@ abstract class AbstractLeagueServiceProvider extends AbstractServiceProvider
     }
 
     /**
-     * @return array<class-string>
+     * @return list<class-string>
      */
     protected function types(): array
     {
@@ -94,9 +103,17 @@ abstract class AbstractLeagueServiceProvider extends AbstractServiceProvider
     }
 
     /**
-     * @return array<string>
+     * @return list<string>
      */
     protected function tags(): array
+    {
+        return [];
+    }
+
+    /**
+     * @return list<class-string>
+     */
+    protected function fulfillments(): array
     {
         return [];
     }
