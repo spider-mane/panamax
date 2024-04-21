@@ -2,6 +2,7 @@
 
 namespace Panamax\Providers\League;
 
+use League\Container\Definition\DefinitionInterface;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 use Psr\Container\ContainerInterface;
 
@@ -12,11 +13,7 @@ abstract class AbstractLeagueServiceProvider extends AbstractServiceProvider
      */
     public function provides(string $id): bool
     {
-        return in_array($id, [
-            $this->id(),
-            ...$this->combinedAliases(),
-            ...$this->combinedTags()
-        ]);
+        return in_array($id, $this->combinedReferences());
     }
 
     /**
@@ -24,18 +21,11 @@ abstract class AbstractLeagueServiceProvider extends AbstractServiceProvider
      */
     public function register(): void
     {
-        $container = $this->getContainer();
-        $definition = $container->add(
-            $id = $this->id(),
-            fn () => $this->service($container)
-        );
-
-        if (null !== $shared = $this->shared()) {
-            $definition->setShared($shared);
-        }
+        $id = $this->id();
+        $definition = $this->define($id, $this->concrete());
 
         foreach ($this->combinedAliases() as $alias) {
-            $container->add($alias, $id);
+            $this->define($alias, $id);
         }
 
         foreach ($this->combinedTags() as $tag) {
@@ -43,14 +33,41 @@ abstract class AbstractLeagueServiceProvider extends AbstractServiceProvider
         }
     }
 
+    protected function combinedReferences(): array
+    {
+        return [
+            $this->id(),
+            ...$this->combinedAliases(),
+            ...$this->combinedTags()
+        ];
+    }
+
     protected function combinedAliases(): array
     {
-        return [...$this->types(), ...$this->aliases()];
+        return [...$this->aliases(), ...$this->types()];
     }
 
     protected function combinedTags(): array
     {
         return $this->tags();
+    }
+
+    protected function define(string $id, mixed $concrete): DefinitionInterface
+    {
+        $definition = $this->getContainer()->add($id, $concrete);
+
+        $shared = $this->shared();
+
+        if (isset($shared)) {
+            $definition->setShared($shared);
+        }
+
+        return $definition;
+    }
+
+    protected function concrete(): mixed
+    {
+        return $this->service($this->getContainer());
     }
 
     protected function shared(): ?bool
@@ -61,15 +78,15 @@ abstract class AbstractLeagueServiceProvider extends AbstractServiceProvider
     /**
      * @return array<string>
      */
-    protected function types(): array
+    protected function aliases(): array
     {
         return [];
     }
 
     /**
-     * @return array<string>
+     * @return array<class-string>
      */
-    protected function aliases(): array
+    protected function types(): array
     {
         return [];
     }
